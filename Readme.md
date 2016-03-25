@@ -1,8 +1,8 @@
 # Личный проект «Код и Магия» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
-* Студент: [Георгий Стренин](https://up.htmlacademy.ru/javascript/4/user/103171).
-* Наставник: `Неизвестно`.
-
+* Студент: [Я].
+* Наставник: [Самостоятельно].
+/*(https://up.htmlacademy.ru/javascript/4/user/103171)*/
 ---
 
 _Не удаляйте и не обращайте внимание на файлы:_<br>
