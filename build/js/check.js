@@ -10,10 +10,18 @@ function sumOfArray(arr) {
 };
 
 function multiplOfArrays(arr1,arr2) {
+  if (arr1.length>arr2.length){
     for (var i = 0; i < arr1.length; i++) {
     length += arr1[i]*arr2[i];
   }
   return length;
+  }
+  else {
+    for (var i = 0; i < arr2.length; i++) {
+    length += arr2[i]*arr1[i];
+  }
+  return length;
+  }
 };
 
 function getMessage(a, b) {
