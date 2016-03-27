@@ -379,15 +379,15 @@
      */
     _drawPauseScreen: function() {
       var canvasWidth = 300;
-      var canvasHeight= 150;
-      var startPointX = 60;
-      var startPointY =  40;
+      var canvasHeight= 120;
+      var startPointX = 80; /*должно определяться динамически*/
+      var startPointY =  60; /*должно определяться динамически*/
       var lineHeight = 20;
       var maxTextWidth = canvasWidth - 20;
       var marginLeft = startPointX + 20;
       var marginTop = startPointY + 30;
       var victoryText = 'Поздравляю! Вы выиграли и заслужили небольшой приз! Возьмите его у себя в холодильнике на верхней полке'
-      var lossText = 'Все кончено, вы проиграли. Вот отсюда!'
+      var lossText = 'Все кончено, вы проиграли. Вон отсюда!'
       var pauseText = 'Игра на паузе. Не забудьте включить меня обратно (пробел)'
       var introText = 'Добро пожаловать в игру! Я волшебник и умею стрелять (shift), для начала игры нажмите пробел'
       switch (this.state.currentStatus) {
@@ -409,15 +409,28 @@
           break;
       }
 
+      /*функция прорисовки подложки под сообщения*/
+
       function drawMessageBox(obj) {
         obj.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        obj.fillRect(startPointX+10, startPointY+10, canvasWidth, canvasHeight);
+        messageBoxForm(obj, startPointX+10, startPointY+10);
         obj.fillStyle = '#FFFFFF';
-        obj.fillRect(startPointX, startPointY, canvasWidth, canvasHeight);
+        messageBoxForm(obj, startPointX, startPointY);
       }
 
-      /*функция прорисовки текста и переноса слов в канвасе*/
+      /*функция создания формы подложки*/
+      function messageBoxForm(obj, pointX, pointY) {
+        obj.beginPath();
+        obj.moveTo(pointX, pointY);
+        obj.lineTo(pointX+canvasWidth, pointY);
+        obj.lineTo(pointX+canvasWidth-20, pointY+canvasHeight);
+        obj.lineTo(pointX-20, pointY+canvasHeight);
+        obj.closePath();
+        obj.fill();
+      };
 
+
+      /*функция прорисовки текста и переноса слов*/
       function drawMessageText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
         context.fillStyle = '#000000';
         context.font= '16px PT Mono';
