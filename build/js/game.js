@@ -380,10 +380,10 @@
     _drawPauseScreen: function() {
       var canvasWidth = 300;
       var canvasHeight= 120;
-      var startPointX = 80; /*должно определяться динамически*/
-      var startPointY =  60; /*должно определяться динамически*/
+      var startPointX = 20; /*должно определяться динамически*/
+      var startPointY =  30; /*должно определяться динамически*/
       var lineHeight = 20;
-      var maxTextWidth = canvasWidth - 20;
+      var maxTextWidth = canvasWidth - 30;
       var marginLeft = startPointX + 20;
       var marginTop = startPointY + 30;
       var victoryText = 'Поздравляю! Вы выиграли и заслужили небольшой приз! Возьмите его у себя в холодильнике на верхней полке'
@@ -433,8 +433,8 @@
 
       /*функция прорисовки текста и переноса слов*/
       function drawMessageText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
-        context.fillStyle = '#000000';
         context.font= '16px PT Mono';
+        context.fillStyle = '#000000';
         var words = text.split(" ");
         var countWords = words.length;
         var line = '';
