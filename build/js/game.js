@@ -378,20 +378,67 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var canvasWidth = 300;
+      var canvasHeight= 150;
+      var startPointX = 60;
+      var startPointY =  40;
+      var lineHeight = 20;
+      var maxTextWidth = canvasWidth - 20;
+      var marginLeft = startPointX + 20;
+      var marginTop = startPointY + 30;
+      var victoryText = 'Поздравляю! Вы выиграли и заслужили небольшой приз! Ну или нет...'
+      var lossText = 'Все кончено, вы проиграли. Вот отсюда!'
+      var pauseText = 'Игра на паузе. Не забудьте включить меня обратно (пробел)'
+      var introText = 'Добро пожаловать в игру! Я волшебник и умею стрелять (shift), для начала игры нажмите пробел'
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          messageBox(this.ctx);
+          drawText(this.ctx, victoryText, marginLeft, marginTop, maxTextWidth, lineHeight);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          messageBox(this.ctx);
+          drawText(this.ctx, lossText, marginLeft, marginTop, maxTextWidth, lineHeight);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          messageBox(this.ctx);
+          drawText(this.ctx, pauseText, marginLeft, marginTop, maxTextWidth, lineHeight);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          messageBox(this.ctx);
+          drawText(this.ctx, introText, marginLeft, marginTop, maxTextWidth, lineHeight);
           break;
       }
+
+      function messageBox(obj) {
+        obj.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        obj.fillRect(startPointX+10, startPointY+10, canvasWidth, canvasHeight);
+        obj.fillStyle = '#FFFFFF';
+        obj.fillRect(startPointX, startPointY, canvasWidth, canvasHeight);
+      }
+
+      /*функция прорисовки текста и переноса слов в канвасе*/
+
+      function drawText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
+        context.fillStyle = '#000000';
+        context.font= '16px PT Mono';
+        var words = text.split(" ");
+        var countWords = words.length;
+        var line = '';
+        for (var n = 0; n < countWords; n++) {
+          var testLine = line + words[n] + ' ';
+          var testWidth = context.measureText(testLine).width;
+          if (testWidth > maxWidth) {
+            context.fillText(line, marginLeft, marginTop);
+            line = words[n] + ' ';
+            marginTop += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, marginLeft, marginTop);
+      }
+
     },
 
     /**
