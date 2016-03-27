@@ -386,30 +386,30 @@
       var maxTextWidth = canvasWidth - 20;
       var marginLeft = startPointX + 20;
       var marginTop = startPointY + 30;
-      var victoryText = 'Поздравляю! Вы выиграли и заслужили небольшой приз! Ну или нет...'
+      var victoryText = 'Поздравляю! Вы выиграли и заслужили небольшой приз! Возьмите его у себя в холодильнике на верхней полке'
       var lossText = 'Все кончено, вы проиграли. Вот отсюда!'
       var pauseText = 'Игра на паузе. Не забудьте включить меня обратно (пробел)'
       var introText = 'Добро пожаловать в игру! Я волшебник и умею стрелять (shift), для начала игры нажмите пробел'
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          messageBox(this.ctx);
-          drawText(this.ctx, victoryText, marginLeft, marginTop, maxTextWidth, lineHeight);
+          drawMessageBox(this.ctx);
+          drawMessageText(this.ctx, victoryText, marginLeft, marginTop, maxTextWidth, lineHeight);
           break;
         case Verdict.FAIL:
-          messageBox(this.ctx);
-          drawText(this.ctx, lossText, marginLeft, marginTop, maxTextWidth, lineHeight);
+          drawMessageBox(this.ctx);
+          drawMessageText(this.ctx, lossText, marginLeft, marginTop, maxTextWidth, lineHeight);
           break;
         case Verdict.PAUSE:
-          messageBox(this.ctx);
-          drawText(this.ctx, pauseText, marginLeft, marginTop, maxTextWidth, lineHeight);
+          drawMessageBox(this.ctx);
+          drawMessageText(this.ctx, pauseText, marginLeft, marginTop, maxTextWidth, lineHeight);
           break;
         case Verdict.INTRO:
-          messageBox(this.ctx);
-          drawText(this.ctx, introText, marginLeft, marginTop, maxTextWidth, lineHeight);
+          drawMessageBox(this.ctx);
+          drawMessageText(this.ctx, introText, marginLeft, marginTop, maxTextWidth, lineHeight);
           break;
       }
 
-      function messageBox(obj) {
+      function drawMessageBox(obj) {
         obj.fillStyle = 'rgba(0, 0, 0, 0.7)';
         obj.fillRect(startPointX+10, startPointY+10, canvasWidth, canvasHeight);
         obj.fillStyle = '#FFFFFF';
@@ -418,7 +418,7 @@
 
       /*функция прорисовки текста и переноса слов в канвасе*/
 
-      function drawText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
+      function drawMessageText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
         context.fillStyle = '#000000';
         context.font= '16px PT Mono';
         var words = text.split(" ");
