@@ -392,25 +392,26 @@
       var introText = 'Добро пожаловать в игру! Я волшебник и умею стрелять (shift), для начала игры нажмите пробел'
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          drawMessageBox(this.ctx);
-          drawMessageText(this.ctx, victoryText, marginLeft, marginTop, maxTextWidth, lineHeight);
+          drawMessage(this.ctx,victoryText);
           break;
         case Verdict.FAIL:
-          drawMessageBox(this.ctx);
-          drawMessageText(this.ctx, lossText, marginLeft, marginTop, maxTextWidth, lineHeight);
+          drawMessage(this.ctx,lossText);
           break;
         case Verdict.PAUSE:
-          drawMessageBox(this.ctx);
-          drawMessageText(this.ctx, pauseText, marginLeft, marginTop, maxTextWidth, lineHeight);
+          drawMessage(this.ctx,pauseText);
           break;
         case Verdict.INTRO:
-          drawMessageBox(this.ctx);
-          drawMessageText(this.ctx, introText, marginLeft, marginTop, maxTextWidth, lineHeight);
+          drawMessage(this.ctx,introText);
           break;
       }
 
-      /*функция прорисовки подложки под сообщения*/
+      /*Функция создания сообщения*/
+      function drawMessage(obj,variant) {
+        drawMessageBox(obj);
+        drawMessageText(obj, variant, marginLeft, marginTop, maxTextWidth, lineHeight);
+      }
 
+      /*функция прорисовки подложки под сообщения*/
       function drawMessageBox(obj) {
         obj.fillStyle = 'rgba(0, 0, 0, 0.7)';
         messageBoxForm(obj, startPointX+10, startPointY+10);
