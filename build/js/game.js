@@ -378,20 +378,81 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var canvasWidth = 300;
+      var canvasHeight= 120;
+      var startPointX = 20; /*должно определяться динамически*/
+      var startPointY =  30; /*должно определяться динамически*/
+      var lineHeight = 20;
+      var maxTextWidth = canvasWidth - 30;
+      var marginLeft = startPointX + 20;
+      var marginTop = startPointY + 30;
+      var victoryText = 'Поздравляю! Вы выиграли и заслужили небольшой приз! Возьмите его у себя в холодильнике на верхней полке'
+      var lossText = 'Все кончено, вы проиграли. Вон отсюда!'
+      var pauseText = 'Игра на паузе. Не забудьте включить меня обратно (пробел)'
+      var introText = 'Добро пожаловать в игру! Я волшебник и умею стрелять (shift), для начала игры нажмите пробел'
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          drawMessage(this.ctx,victoryText);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          drawMessage(this.ctx,lossText);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          drawMessage(this.ctx,pauseText);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          drawMessage(this.ctx,introText);
           break;
       }
+
+      /*Функция создания сообщения*/
+      function drawMessage(obj,variant) {
+        drawMessageBox(obj);
+        drawMessageText(obj, variant, marginLeft, marginTop, maxTextWidth, lineHeight);
+      }
+
+      /*функция прорисовки подложки под сообщения*/
+      function drawMessageBox(obj) {
+        obj.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        messageBoxForm(obj, startPointX+10, startPointY+10);
+        obj.fillStyle = '#FFFFFF';
+        messageBoxForm(obj, startPointX, startPointY);
+      }
+
+      /*функция создания формы подложки*/
+      function messageBoxForm(obj, pointX, pointY) {
+        obj.beginPath();
+        obj.moveTo(pointX, pointY);
+        obj.lineTo(pointX+canvasWidth, pointY);
+        obj.lineTo(pointX+canvasWidth-20, pointY+canvasHeight);
+        obj.lineTo(pointX-20, pointY+canvasHeight);
+        obj.closePath();
+        obj.fill();
+      };
+
+
+      /*функция прорисовки текста и переноса слов*/
+      function drawMessageText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
+        context.font= '16px PT Mono';
+        context.fillStyle = '#000000';
+        var words = text.split(" ");
+        var countWords = words.length;
+        var line = '';
+        for (var n = 0; n < countWords; n++) {
+          var testLine = line + words[n] + ' ';
+          var testWidth = context.measureText(testLine).width;
+          if (testWidth > maxWidth) {
+            context.fillText(line, marginLeft, marginTop);
+            line = words[n] + ' ';
+            marginTop += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, marginLeft, marginTop);
+      }
+
     },
 
     /**
