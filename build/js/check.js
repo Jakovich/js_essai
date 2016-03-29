@@ -13,23 +13,23 @@ function getMessage(a, b) {
       break;
 
     case "number":
-      var jumpHeight = a * 100;
-      var jumpMessage = "Я прыгнул на " + jumpHeight + " сантиметров";
+      var jumpMessage = "Я прыгнул на " + a * 100 + " сантиметров";
       return jumpMessage;
       break;
 
     case "object":
       if (typeof b == "object") {
         /*если массивы разные по длине выбор самого короткого, чтобы не получить значение Nan*/
-        if (a.length > b.length) {
-          var distanceCount = b.reduce(function (sum, elem, i) {
-            return (sum + (elem * a[i]));
-          }, 0);
-        } else {
-          var distanceCount = a.reduce(function (sum, elem, i) {
-            return (sum + (elem * b[i]));
-          }, 0);
+        var longestArr = a;
+        var shortArr = b;
+        if (b.length > a.length) {
+          longestArr = b;
+          shortArr = a;
         }
+        var distanceCount = shortArr.reduce(function (sum, elem, i) {
+          return (sum + (elem * longestArr[i]));
+        }, 0);
+
         var distanceMessage = "Я прошёл " + distanceCount + " метров"
         return distanceMessage;
         
