@@ -7,10 +7,9 @@ function getMessage(a, b) {
       if (a) {
         var fireSuccesMessage = "Я попал в " + b;
         return fireSuccesMessage;
-      }
-      else {
+      } else {
         return "Я никуда не попал";
-      };
+      }
       break;
 
     case "number":
@@ -20,29 +19,27 @@ function getMessage(a, b) {
       break;
 
     case "object":
-      if (typeof b == "object"){
+      if (typeof b == "object") {
         /*если массивы разные по длине выбор самого короткого, чтобы не получить значение Nan*/
         if (a.length > b.length) {
           var distanceCount = b.reduce(function (sum, elem, i) {
-          return (sum + (elem * a[i]));
+            return (sum + (elem * a[i]));
           }, 0);
-        }
-        else {
+        } else {
           var distanceCount = a.reduce(function (sum, elem, i) {
-          return (sum + (elem * b[i]));
+            return (sum + (elem * b[i]));
           }, 0);
         }
-
         var distanceMessage = "Я прошёл " + distanceCount + " метров"
         return distanceMessage;
-      }
-      else {
+        
+      } else {
         var stepCount = a.reduce(function(sum, current) {
-        return sum + current;
+          return sum + current;
         }, 0);
         var stepMessage = "Я прошёл " + stepCount + " шагов";
         return stepMessage;
-      };
+      }
       break;
   };
 };
