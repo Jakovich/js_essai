@@ -1,26 +1,10 @@
 "use strict";
 
-function multiplOfArrays(arr1, arr2) {
-  var length = 0;
-  if (arr1.length > arr2.length){
-    for (var i = 0; i < arr1.length; i++) {
-      length += arr1[i] * arr2[i];
-    }
-    return length;
-  }
-  else {
-    for (var i = 0; i < arr2.length; i++) {
-      length += arr2[i] * arr1[i];
-    }
-    return length;
-  }
-};
-
 function getMessage(a, b) {
 
   switch (typeof a) {
     case "boolean":
-      if(a) {
+      if (a) {
         var fireSuccesMessage = "Я попал в " + b;
         return fireSuccesMessage;
       }
@@ -37,15 +21,26 @@ function getMessage(a, b) {
 
     case "object":
       if (typeof b == "object"){
-        var distanceCount= multiplOfArrays(a,b);
+        /*если массивы разные по длине выбор самого короткого, чтобы не получить значение Nan*/
+        if (a.length > b.length) {
+          var distanceCount = b.reduce(function (sum, elem, i) {
+          return (sum + (elem * a[i]));
+          }, 0);
+        }
+        else {
+          var distanceCount = a.reduce(function (sum, elem, i) {
+          return (sum + (elem * b[i]));
+          }, 0);
+        }
+
         var distanceMessage = "Я прошёл " + distanceCount + " метров"
         return distanceMessage;
       }
       else {
         var stepCount = a.reduce(function(sum, current) {
         return sum + current;
-        });
-        var stepMessage =  "Я прошёл "+ stepCount + " шагов";
+        }, 0);
+        var stepMessage = "Я прошёл " + stepCount + " шагов";
         return stepMessage;
       };
       break;
