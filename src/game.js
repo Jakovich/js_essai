@@ -414,7 +414,7 @@
       /*функция прорисовки подложки под сообщения*/
       function drawMessageBox(obj) {
         obj.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        messageBoxForm(obj, startPointX + 10, startPointY + 10);
+        messageBoxForm(obj, startPointX+10, startPointY+10);
         obj.fillStyle = '#FFFFFF';
         messageBoxForm(obj, startPointX, startPointY);
       }
@@ -423,9 +423,9 @@
       function messageBoxForm(obj, pointX, pointY) {
         obj.beginPath();
         obj.moveTo(pointX, pointY);
-        obj.lineTo(pointX + canvasWidth, pointY);
-        obj.lineTo(pointX + canvasWidth - 20, pointY + canvasHeight);
-        obj.lineTo(pointX - 20, pointY + canvasHeight);
+        obj.lineTo(pointX+canvasWidth, pointY);
+        obj.lineTo(pointX+canvasWidth-20, pointY+canvasHeight);
+        obj.lineTo(pointX-20, pointY+canvasHeight);
         obj.closePath();
         obj.fill();
       };
