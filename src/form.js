@@ -23,67 +23,64 @@
     formContainer.classList.add('invisible');
   };
 
+  /*проверка и реагирования на начальное состояние*/
+
   feedbackFormName.required = true;
 
-  /*проверка начальных состояний*/
-  if (feedbackFormValue < 3) {
-    feedbackFormText.required = true;
-  }
+  textRequired(feedbackFormValue);
 
-  if (feedbackFormName.value) {
-    feedbackFormNameLabel.style.display = 'none';
-  } else {
-    feedbackFormNameLabel.style.display = 'inline-block';
-  }
+  hideLabel(feedbackFormName, feedbackFormNameLabel);
 
-  if (feedbackFormText.value) {
-    feedbackFormTextLabel.style.display = 'none';
-  } else {
-    feedbackFormTextLabel.style.display = 'inline-block';
-  }
+  hideLabel(feedbackFormText, feedbackFormTextLabel);
 
   checkValid();
 
 
-
-/*динамическая проверка*/
+  /*динамическая проверка*/
   for (var i = 0; i < feedbackFormMark.length; i++) {
     feedbackFormMark[i].onclick = function() {
       var feedbackFormValue = parseInt(feedbackFormMark.value, 10);
-      if (feedbackFormValue < 3) {
-        feedbackFormText.required = true;
-      } else {
-        feedbackFormText.required = false;
-      }
+      textRequired(feedbackFormValue);
       checkValid();
     };
   };
 
   feedbackFormName.onchange = function() {
-    if (feedbackFormName.value) {
-      feedbackFormNameLabel.style.display = 'none';
-    } else {
-      feedbackFormNameLabel.style.display = 'inline-block';
-    }
+    hideLabel(feedbackFormName, feedbackFormNameLabel);
     checkValid();
   };
 
   feedbackFormText.onchange = function() {
-    if (feedbackFormText.value) {
-      feedbackFormTextLabel.style.display = 'none';
-    } else {
-      feedbackFormTextLabel.style.display = 'inline-block';
-    }
+    hideLabel(feedbackFormText, feedbackFormTextLabel);
     checkValid();
   };
 
   /*функция управления классом disabled у кнопки submit*/
 
-  function checkValid(){
-    if( feedbackFormName.checkValidity() && feedbackFormText.checkValidity()) {
+  function checkValid() {
+    if (feedbackFormName.checkValidity() && feedbackFormText.checkValidity()) {
       feedbackFormButton.removeAttribute('disabled');
     } else {
       feedbackFormButton.setAttribute('disabled', true);
+    }
+  };
+
+  /*функция скрытия лэйблов*/
+
+  function hideLabel(input, inputLabel) {
+    if (input.value) {
+      inputLabel.style.display = 'none';
+    } else {
+      inputLabel.style.display = 'inline-block';
+    }
+  };
+
+  /*функция установки ограничения на поле "описание"*/
+  function textRequired(value) {
+    if (value < 3) {
+      feedbackFormText.required = true;
+    } else {
+      feedbackFormText.required = false;
     }
   };
 
