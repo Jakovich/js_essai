@@ -11,6 +11,7 @@
   var feedbackFormTextLabel = feedbackForm.querySelector('.review-fields-text');
   var feedbackFormMark = feedbackForm['review-mark'];
   var feedbackFormValue = parseInt(feedbackFormMark.value, 10);
+  var feedbackFormButton = feedbackForm.querySelector('.review-submit');
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
@@ -24,10 +25,28 @@
 
   feedbackFormName.required = true;
 
+  /*проверка начальных состояний*/
   if (feedbackFormValue < 3) {
     feedbackFormText.required = true;
-  };
+  }
 
+  if (feedbackFormName.value) {
+    feedbackFormNameLabel.style.display = 'none';
+  } else {
+    feedbackFormNameLabel.style.display = 'inline-block';
+  }
+
+  if (feedbackFormText.value) {
+    feedbackFormTextLabel.style.display = 'none';
+  } else {
+    feedbackFormTextLabel.style.display = 'inline-block';
+  }
+
+  checkValid();
+
+
+
+/*динамическая проверка*/
   for (var i = 0; i < feedbackFormMark.length; i++) {
     feedbackFormMark[i].onclick = function() {
       var feedbackFormValue = parseInt(feedbackFormMark.value, 10);
@@ -36,6 +55,7 @@
       } else {
         feedbackFormText.required = false;
       }
+      checkValid();
     };
   };
 
@@ -45,14 +65,26 @@
     } else {
       feedbackFormNameLabel.style.display = 'inline-block';
     }
+    checkValid();
   };
 
   feedbackFormText.onchange = function() {
-     if (feedbackFormText.value) {
+    if (feedbackFormText.value) {
       feedbackFormTextLabel.style.display = 'none';
     } else {
       feedbackFormTextLabel.style.display = 'inline-block';
     }
-  }
+    checkValid();
+  };
+
+  /*функция управления классом disabled у кнопки submit*/
+
+  function checkValid(){
+    if( feedbackFormName.checkValidity() && feedbackFormText.checkValidity()) {
+      feedbackFormButton.removeAttribute('disabled');
+    } else {
+      feedbackFormButton.setAttribute('disabled', true);
+    }
+  };
 
 })();
