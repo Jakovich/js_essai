@@ -12,7 +12,8 @@
   var feedbackFormMark = feedbackForm['review-mark'];
   var feedbackFormValue = parseInt(feedbackFormMark.value, 10);
   var feedbackFormButton = feedbackForm.querySelector('.review-submit');
-  
+  var errMsgName = 'Заполните имя, а то как мы без этого будем дальше?';
+  var errMsgText = 'Заполните отзыв, раз уж вам так не нравится';
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
@@ -31,20 +32,12 @@
   textRequired(feedbackFormValue);
 
   hideLabel(feedbackFormName, feedbackFormNameLabel);
-
   hideLabel(feedbackFormText, feedbackFormTextLabel);
-  
-  
 
   checkValid();
   
-   if (!feedbackFormName.checkValidity()) {
-    errorMsg(feedbackFormName, 'Заполните имя, как мы без этого будем дальше');
-    }
-  
-   if (!feedbackFormText.checkValidity()) {
-    errorMsg(feedbackFormText, 'Заполните имя, как мы без этого будем дальше');
-    }
+  errorMsgShow(feedbackFormName, errMsgName);
+  errorMsgShow(feedbackFormText, errMsgText);
 
 
   /*динамическая проверка*/
@@ -53,33 +46,21 @@
       var feedbackFormValue = parseInt(feedbackFormMark.value, 10);
       textRequired(feedbackFormValue);
       checkValid();
-       resetError(feedbackFormName);
-       resetError(feedbackFormText);
-      if (!feedbackFormName.checkValidity()) {
-        errorMsg(feedbackFormName, 'Заполните имя, как мы без этого будем дальше');
-      }
-      if (!feedbackFormText.checkValidity()) {
-        errorMsg(feedbackFormText, 'Заполните имя, как мы без этого будем дальше');
-      }
+      errorMsgShow(feedbackFormName, errMsgName);
+      errorMsgShow(feedbackFormText, errMsgText);
     };
   };
 
   feedbackFormName.onchange = function() {
-    resetError(feedbackFormName);
     hideLabel(feedbackFormName, feedbackFormNameLabel);
     checkValid();
-    if (!feedbackFormName.checkValidity()) {
-    errorMsg(feedbackFormName, 'Заполните имя, как мы без этого будем дальше');
-    }
+    errorMsgShow(feedbackFormName, errMsgName);
   };
 
   feedbackFormText.onchange = function() {
-    resetError(feedbackFormText);
     hideLabel(feedbackFormText, feedbackFormTextLabel);
     checkValid();
-    if (!feedbackFormText.checkValidity()) {
-    errorMsg(feedbackFormText, 'Заполните имя, как мы без этого будем дальше');
-    }
+    errorMsgShow(feedbackFormText, errMsgText)
   };
   
   /*функция управления классом disabled у кнопки submit*/
@@ -127,10 +108,14 @@
     if (input.parentNode.lastChild.className == "error") {
       input.parentNode.removeChild(input.parentNode.lastChild);
     }
-  }
+  };
   
- 
-    
-  
+  /*функция выведения сообщения об ошибки*/
+  function errorMsgShow(input, errText) {
+    resetError(input);
+    if (!input.checkValidity()) {
+      errorMsg(input, errText);
+    }    
+  };
 
 })();
