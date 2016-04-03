@@ -12,6 +12,7 @@
   var feedbackFormMark = feedbackForm['review-mark'];
   var feedbackFormValue = parseInt(feedbackFormMark.value, 10);
   var feedbackFormButton = feedbackForm.querySelector('.review-submit');
+  
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
@@ -32,8 +33,18 @@
   hideLabel(feedbackFormName, feedbackFormNameLabel);
 
   hideLabel(feedbackFormText, feedbackFormTextLabel);
+  
+  
 
   checkValid();
+  
+   if (!feedbackFormName.checkValidity()) {
+    errorMsg(feedbackFormName, 'Заполните имя, как мы без этого будем дальше');
+    }
+  
+   if (!feedbackFormText.checkValidity()) {
+    errorMsg(feedbackFormText, 'Заполните имя, как мы без этого будем дальше');
+    }
 
 
   /*динамическая проверка*/
@@ -42,19 +53,35 @@
       var feedbackFormValue = parseInt(feedbackFormMark.value, 10);
       textRequired(feedbackFormValue);
       checkValid();
+       resetError(feedbackFormName);
+       resetError(feedbackFormText);
+      if (!feedbackFormName.checkValidity()) {
+        errorMsg(feedbackFormName, 'Заполните имя, как мы без этого будем дальше');
+      }
+      if (!feedbackFormText.checkValidity()) {
+        errorMsg(feedbackFormText, 'Заполните имя, как мы без этого будем дальше');
+      }
     };
   };
 
   feedbackFormName.onchange = function() {
+    resetError(feedbackFormName);
     hideLabel(feedbackFormName, feedbackFormNameLabel);
     checkValid();
+    if (!feedbackFormName.checkValidity()) {
+    errorMsg(feedbackFormName, 'Заполните имя, как мы без этого будем дальше');
+    }
   };
 
   feedbackFormText.onchange = function() {
+    resetError(feedbackFormText);
     hideLabel(feedbackFormText, feedbackFormTextLabel);
     checkValid();
+    if (!feedbackFormText.checkValidity()) {
+    errorMsg(feedbackFormText, 'Заполните имя, как мы без этого будем дальше');
+    }
   };
-
+  
   /*функция управления классом disabled у кнопки submit*/
 
   function checkValid() {
@@ -83,5 +110,27 @@
       feedbackFormText.required = false;
     }
   };
+  
+  /*функция ошибки*/
+  
+  function errorMsg(input, errText) {
+    var msg = document.createElement('span');
+    msg.style.display = "block";
+    msg.style.color = "red";
+    msg.innerHTML = errText;
+    msg.className = "error";
+    input.parentNode.appendChild(msg);
+  };
+  
+  /*функция отмены сообщения*/
+  function resetError(input) {
+    if (input.parentNode.lastChild.className == "error") {
+      input.parentNode.removeChild(input.parentNode.lastChild);
+    }
+  }
+  
+ 
+    
+  
 
 })();
