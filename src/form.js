@@ -51,13 +51,13 @@
     };
   };
 
-  feedbackFormName.onchange = function() {
+  feedbackFormName.oninput = function() {
     hideLabel(feedbackFormName, feedbackFormNameLabel);
     checkValid();
     errorMsgShow(feedbackFormName, errMsgName);
   };
 
-  feedbackFormText.onchange = function() {
+  feedbackFormText.oninput = function() {
     hideLabel(feedbackFormText, feedbackFormTextLabel);
     checkValid();
     errorMsgShow(feedbackFormText, errMsgText)
