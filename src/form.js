@@ -14,6 +14,7 @@
   var feedbackFormButton = feedbackForm.querySelector('.review-submit');
   var errMsgName = 'Заполните имя, а то как мы без этого будем дальше?';
   var errMsgText = 'Заполните отзыв, раз уж вам так не нравится';
+  var browserCookies = require('browser-cookies');
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
@@ -24,6 +25,10 @@
     evt.preventDefault();
     formContainer.classList.add('invisible');
   };
+  
+  /*чтение cookies*/
+  feedbackFormName.value = browserCookies.get('name');
+  feedbackFormMark.value = browserCookies.get('mark') || 3;
 
   /*проверка и реагирования на начальное состояние*/
 
@@ -117,5 +122,24 @@
       errorMsg(input, errText);
     }    
   }
+  
+  /*работа с cookies*/
+  feedbackForm.onsubmit = function(event) {
+    event.preventDefault();
+    browserCookies.set('mark', feedbackFormMark.value, {
+      expires: Date.now()
+    });
+    browserCookies.set('name', feedbackFormName.value);
+    this.submit();
+  };
+  
+  /*установка даты*/
+  var myMonth = 2;
+  var myDay = 6;
+  var currentDate = new Date();
+  var currentYear = currentDate.getFullYear();
+  var currentMoths = currentDate.getMonth();
+  var currentDay = currentDate.getDate();
+  
 
 })();
