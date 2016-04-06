@@ -27,7 +27,7 @@
   };
   
   /*чтение cookies*/
-  feedbackFormName.value = browserCookies.get('name');
+  feedbackFormName.value = browserCookies.get('name') || '';
   feedbackFormMark.value = browserCookies.get('mark') || 3;
 
   /*проверка и реагирования на начальное состояние*/
@@ -66,6 +66,19 @@
     hideLabel(feedbackFormText, feedbackFormTextLabel);
     checkValid();
     errorMsgShow(feedbackFormText, errMsgText);
+  };
+  
+  /*задание cookies*/
+  feedbackForm.onsubmit = function(event) {
+    event.preventDefault();
+    var expireDateValue = setTimeofExpires ();
+    browserCookies.set('mark', feedbackFormMark.value, {
+      expires: expireDateValue
+    });
+    browserCookies.set('name', feedbackFormName.value, {
+      expires: expireDateValue
+    });            
+    this.submit();
   };
   
   /*функция управления классом disabled у кнопки submit*/
@@ -123,23 +136,20 @@
     }    
   }
   
-  /*работа с cookies*/
-  feedbackForm.onsubmit = function(event) {
-    event.preventDefault();
-    browserCookies.set('mark', feedbackFormMark.value, {
-      expires: Date.now()
-    });
-    browserCookies.set('name', feedbackFormName.value);
-    this.submit();
-  };
-  
-  /*установка даты*/
-  var myMonth = 2;
-  var myDay = 6;
-  var currentDate = new Date();
-  var currentYear = currentDate.getFullYear();
-  var currentMoths = currentDate.getMonth();
-  var currentDay = currentDate.getDate();
+    /*функция высчитывания времени действия cookies*/
+  function setTimeofExpires () {
+    var currentDate = new Date();
+    var currentYear = currentDate.getFullYear();
+    var birthDate = new Date(currentYear, 2, 6);
+    if (currentDate > birthDate) {
+      var expireDateMilisec = currentDate - birthDate;
+    } else {
+      var birthDate = new Date(currentYear - 1, 2, 6);
+      var expireDateMilisec = currentDate - birthDate;
+    }
+    var expireDate = Math.floor(expireDateMilisec / 3600 / 24 / 1000);
+    return expireDate;
+  }
   
 
 })();
