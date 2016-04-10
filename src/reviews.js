@@ -1,7 +1,7 @@
 (function() {
   var reviewsContainer = document.querySelector('.reviews-list');
   var reviews = window.reviews;
-  var templaite = document.querySelector('#review-template');
+  var template = document.querySelector('#review-template');
   var reviewsFilter = document.querySelector('.reviews-filter');
   var elementToClone;
 
@@ -9,15 +9,16 @@
     reviewsFilter.classList.add('invisible');
   }
 
-  if ('content' in templaite) {
-    elementToClone = templaite.content.querySelector('.review');
+  if ('content' in template) {
+    elementToClone = template.content.querySelector('.review');
   } else {
-    elementToClone = templaite.querySelector('.review');
+    elementToClone = template.querySelector('.review');
   }
 
   function getReviewElement(data, container) {
     var element = elementToClone.cloneNode(true);
-    var ratingWidth = 30 * data.rating + 'px';
+    var starWidth = 30;
+    var ratingWidth = starWidth * data.rating + 'px';
     var userImage = new Image();
     var imageLoadTimeout;
 
