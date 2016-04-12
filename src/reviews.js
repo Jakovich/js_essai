@@ -47,9 +47,59 @@
 
     return element;
   }
-
-  reviews.forEach(function(review) {
-    getReviewElement(review, reviewsContainer);
+  
+  function renderReviews(reviews) {
+    reviewsContainer.innerHtml = '';
+    reviews.forEach(function(review) {
+      getReviewElement(review, reviewsContainer);
+    });
+  }
+  
+  function getReviews(callback) {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.onload = function(event) {
+      var loadedData = JSON.parse(event.target.response);
+      callback(loadedData);
+    };
+    
+    xhr.open('GET', '//o0.github.io/assets/json/reviews.json');
+    xhr.send();
+  }
+  
+  
+  
+  function setFiltrationEnabled() {
+    
+    var filters = reviewsFilter.querySelectorAll('.reviews-filter-item');
+    for (var i = 0; i < filters.length; i++) {
+      filters[i].onclick = function(event) {
+        setFilterEnabled(this.id);
+      };
+    }
+  }
+  
+  function getFilteredReviews(reviews, filter) {
+    var reviewsToFilter = reviews.slice(0);
+    
+    switch (filter) {
+      case 'reviews-good':
+        reviewsToFilter.sort(function(a, b) {
+          return b.rating - a.rating;
+        })
+        break;
+    }
+    return reviewsToFilter;
+  }
+  
+  function setFilterEnabled(filter) {
+    var filtiredReviews = getFilteredReviews(reviews, filter);
+    renderReviews(filtiredReviews);
+  }
+  
+  getReviews(function(loadedReviews) {
+    reviews = loadedReviews;
+    renderReviews(reviews);
   });
 
   if (reviewsFilter.classList.contains('invisible')){
