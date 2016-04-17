@@ -70,7 +70,7 @@
       reviewsContainer.classList.add('.reviews-load-failure');
     };
     
-    xhr.ontimeou
+    xhr.ontimeout = xhr.onerror;
     
     xhr.onload = function(event) {
       if (reviewsContainer.classList.contains('.reviews-list-loading')) {
