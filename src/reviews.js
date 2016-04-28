@@ -123,7 +123,7 @@
         pageNumber++;
         renderReviews(filteredReviews, pageNumber);
       }
-    })
+    });
   }
    
   function getFilteredReviews(reviews, filter) {
@@ -177,7 +177,7 @@
   
   function setFiltrationEnabled() {
     reviewsFilter.addEventListener('click', function(event) {
-      if (event.target.name == 'reviews') {
+      if (event.target.name === 'reviews') {
         setFilterEnabled(event.target.id);
       }
     });
