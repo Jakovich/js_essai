@@ -74,6 +74,8 @@
    * @type {Object.<ObjectType, function(Object, Object, number): Object>}
    */
   var ObjectsBehaviour = {};
+  
+
 
   /**
    * Обновление движения мага. Движение мага зависит от нажатых в данный момент
@@ -738,10 +740,48 @@
       window.removeEventListener('keyup', this._onKeyUp);
     }
   };
+  
+  /*функция параллакса*/
+  
+  var cloudElement = document.querySelector('.header-clouds');
+  var gameBlock = document.querySelector('.demo');
+  
+  var visible = true;
+  cloudElement.style.backgroundPosition = '0 0';
 
+  
+  function visibleVerification() {
+    var scrollTimeout;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        if (cloudElement.getBoundingClientRect().bottom < 0) {
+          visible = false;
+        } else {
+          visible = true;
+        }
+        if (gameBlock.getBoundingClientRect().bottom < 0) {
+          game.setGameStatus(Game.Verdict.PAUSE);
+        }
+      }, 100);
+    });
+  }
+  
+    
+  function scrollCloud() {
+    window.addEventListener('scroll', function() {
+      if(!visible) {
+        return false;
+      }
+      var scrolled = window.pageYOffset;
+      cloudElement.style.backgroundPosition = -scrolled + 'px';
+    });
+  }
+  
   window.Game = Game;
   window.Game.Verdict = Verdict;
-
+  visibleVerification();
+  scrollCloud();
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
