@@ -746,21 +746,21 @@
   var cloudElement = document.querySelector('.header-clouds');
   var gameBlock = document.querySelector('.demo');
   
-  var visible = true;
+  var isCloudVisible = true;
   cloudElement.style.backgroundPosition = '0 0';
-
+  
+  function isElementVisible(element) {
+    var isVisible = element.getBoundingClientRect().bottom >= 0;
+    return isVisible;
+  }
   
   function visibleVerification() {
     var scrollTimeout;
     window.addEventListener('scroll', function() {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(function() {
-        if (cloudElement.getBoundingClientRect().bottom < 0) {
-          visible = false;
-        } else {
-          visible = true;
-        }
-        if (gameBlock.getBoundingClientRect().bottom < 0) {
+        isCloudVisible = isElementVisible(cloudElement);
+        if (!isElementVisible(gameBlock)) {
           game.setGameStatus(Game.Verdict.PAUSE);
         }
       }, 100);
@@ -770,7 +770,7 @@
     
   function scrollCloud() {
     window.addEventListener('scroll', function() {
-      if(!visible) {
+      if(!isCloudVisible) {
         return false;
       }
       var scrolled = window.pageYOffset;
