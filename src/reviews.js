@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
   var reviewsContainer = document.querySelector('.reviews-list');
   var template = document.querySelector('#review-template');
