@@ -7,13 +7,13 @@
   var elementToClone;
   var PAGE_SIZE = 3;
   var pageNumber = 0;
-  var Filter = {
+  /*var Filter = {
     'ALL': 'reviews-all',
     'RECENT': 'reviews-recent',
     'GOOD': 'reviews-good',
     'BAD': 'reviews-bad',
     'POPULAR': 'reviews-popular',
-  };
+  };*/
   
   var linkShow = document.querySelector(".reviews-controls-more");
   
@@ -128,7 +128,7 @@
     });
   }
    
-  function getFilteredReviews(reviews, filter) {
+  /*function getFilteredReviews(reviews, filter) {
     var reviewsToFilter = reviews.slice(0);
     var period = new Date() - 1000 * 60 * 60 * 24 * 14;
     switch (filter) {
@@ -170,6 +170,7 @@
     }
     return reviewsToFilter;
   }
+  */
   
   function setFilterEnabled(filter) {
     filteredReviews = getFilteredReviews(reviews, filter);
