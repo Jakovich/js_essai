@@ -745,44 +745,30 @@
   
   var cloudElement = document.querySelector('.header-clouds');
   var gameBlock = document.querySelector('.demo');
-  
+  var utils = require('../utils');
   var isCloudVisible = true;
-  cloudElement.style.backgroundPosition = '0 0';
-  
-  function isElementVisible(element) {
-    var isVisible = element.getBoundingClientRect().bottom >= 0;
-    return isVisible;
-  }
-  
+
   function visibleVerification() {
     var scrollTimeout;
     window.addEventListener('scroll', function() {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(function() {
-        isCloudVisible = isElementVisible(cloudElement);
-        if (!isElementVisible(gameBlock)) {
+        isCloudVisible = utils.isElementVisible(cloudElement);
+        if (!utils.isElementVisible(gameBlock)) {
           game.setGameStatus(Game.Verdict.PAUSE);
         }
       }, 100);
     });
   }
   
-    
-  function scrollCloud() {
-    window.addEventListener('scroll', function() {
-      if(!isCloudVisible) {
-        return false;
-      }
-      var scrolled = window.pageYOffset;
-      cloudElement.style.backgroundPosition = -scrolled + 'px';
-    });
-  }
+  var scrollCloud = require('../game/parallax');
+  
   
   window.Game = Game;
   window.Game.Verdict = Verdict;
+  var game = new Game(document.querySelector('.demo'));
   visibleVerification();
   scrollCloud();
-  var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
 })();
