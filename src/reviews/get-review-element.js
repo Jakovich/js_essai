@@ -39,6 +39,6 @@ var getReviewElement = function(data, container) {
   container.appendChild(element);
 
   return element;
-}
+};
 
 module.exports = getReviewElement;

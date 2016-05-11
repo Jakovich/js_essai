@@ -748,12 +748,11 @@
   var utils = require('../utils');
   var isCloudVisible = true;
 
-  function visibleVerification() {
+  function stopGame() {
     var scrollTimeout;
     window.addEventListener('scroll', function() {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(function() {
-        isCloudVisible = utils.isElementVisible(cloudElement);
         if (!utils.isElementVisible(gameBlock)) {
           game.setGameStatus(Game.Verdict.PAUSE);
         }
@@ -767,7 +766,7 @@
   window.Game = Game;
   window.Game.Verdict = Verdict;
   var game = new Game(document.querySelector('.demo'));
-  visibleVerification();
+  stopGame();
   scrollCloud();
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);

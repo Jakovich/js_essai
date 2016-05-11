@@ -9,6 +9,5 @@ module.exports = {
     var isVisible = element.getBoundingClientRect().bottom >= 0;
     return isVisible;
   }
-
 }
 

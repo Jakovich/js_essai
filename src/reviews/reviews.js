@@ -1,6 +1,6 @@
 'use strict';
-var filter = require('../filter/filter');
 var FilterType = require('../filter/filter-type');
+var filter = require('../filter/filter');
 var getReviews = require('./get-reviews');
 var getReviewElement = require('./get-review-element');
 var utils = require('../utils');
@@ -49,7 +49,7 @@ function showMore() {
 }
   
 function setFilterEnabled(filterType) {
-  filteredReviews = filter(reviews, filter);
+  filteredReviews = filter(reviews, filterType);
   pageNumber = 0;
   renderReviews(filteredReviews, pageNumber, true);
 }

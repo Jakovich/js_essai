@@ -2,10 +2,10 @@
 
 var FilterType = require('./filter-type');
 
-var filter = function(reviews, FilterType) {
+var filter = function(reviews, filterType) {
   var reviewsToFilter = reviews.slice(0);
   var period = new Date() - 1000 * 60 * 60 * 24 * 14;
-  switch (FilterType) {
+  switch (filterType) {
     case FilterType.RECENT:
       reviewsToFilter = reviewsToFilter.filter(function(a) {
         return new Date(a.date) >= period;
