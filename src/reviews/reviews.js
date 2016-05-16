@@ -1,5 +1,5 @@
 'use strict';
-var FilterType = require('../filter/filter-type');
+var FILTER_TYPE = require('../filter/filter-type');
 var filter = require('../filter/filter');
 var getReviews = require('./get-reviews');
 var getReviewElement = require('./get-review-element');
@@ -48,8 +48,8 @@ function showMore() {
   });
 }
   
-function setFilterEnabled(filterType) {
-  filteredReviews = filter(reviews, filterType);
+function setFilterEnabled(type) {
+  filteredReviews = filter(reviews, type);
   pageNumber = 0;
   renderReviews(filteredReviews, pageNumber, true);
 }
@@ -65,7 +65,7 @@ function setFiltrationEnabled() {
 getReviews(function(loadedReviews) {
   reviews = loadedReviews;
   setFiltrationEnabled();
-  setFilterEnabled(FilterType.ALL);
+  setFilterEnabled(FILTER_TYPE.ALL);
   showMore();
 });
 

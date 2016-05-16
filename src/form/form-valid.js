@@ -3,11 +3,7 @@
 module.exports = {
   
   textRequired: function(value, element) {
-    if (value < 3) {
-      element.required = true;
-    } else {
-      element.required = false;
-    }
+    element.required = value < 3;
   },
   
   errorMsg: function(input, errText) {
@@ -20,17 +16,13 @@ module.exports = {
   },
   
   resetError: function(input) {
-    if (input.parentNode.lastChild.className == 'error') {
+    if (input.parentNode.lastChild.className === 'error') {
      input.parentNode.removeChild(input.parentNode.lastChild);
     }
   },
 
   hideLabel: function(input, inputLabel) {
-    if (input.value) {
-      inputLabel.style.display = 'none';
-    } else {
-      inputLabel.style.display = 'inline-block';
-    }
+    inputLabel.style.display = input.value ? 'none' : 'inline-block';
   }
   
   
