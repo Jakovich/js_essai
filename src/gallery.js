@@ -15,3 +15,6 @@ var galleryShow = function(photoNumber) {
     gallery.classList.remove("invisible")';'
   }
 };
+
+var galleryHidden = function() {}
+
