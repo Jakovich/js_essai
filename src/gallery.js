@@ -17,25 +17,17 @@ var currentNumberContainer = galleryContainer.querySelector('.preview-number-cur
 
 var totalNumberContainer = galleryContainer.querySelector('.preview-number-total');
 
-var photoSrc = [];
+
 var galleryArray = [];
-var photo = new Image(600,500);
+var photo = new Image(500,550);
 var numberPhoto;
 var currentPhoto = 0;
 galleryPreview.appendChild(photo);
 
-//яункция создания массива  с src изображений
+//функция создания массива  с src изображений
 var getPhotos = function(arr) {
   for (var i = 0; i < arr.length; i++) {
-    photoSrc.push(arr[i].src);
-  }
-};
-
-
-//функция создания копии архива с src изображений
-var getGallery = function(arr) {
-  for (var i = 0; i < arr.length; i++) {
-    galleryArray[i] = arr[i];
+    galleryArray.push(arr[i].src);
   }
 };
 
@@ -46,8 +38,7 @@ var photoClick = function() {
     event.preventDefault();
     if (event.target.tagName === 'IMG') {
       numberPhoto = galleryArray.indexOf(event.target.src); 
-      showGallery(numberPhoto);
-      
+      showGallery(numberPhoto); 
     }
   })
 };
@@ -81,6 +72,8 @@ var showGallery = function(photoNumber) {
   controlNext.addEventListener('click', _onNextClick);
 };
 
+
+//функция показа изображения
 var showPhoto = function (num) { 
   photo.src = galleryArray[num];
   currentNumberContainer.innerHTML = num + 1;
@@ -88,11 +81,12 @@ var showPhoto = function (num) {
   hideControls();
 };
 
+//функция скрытия галарея при клике по крестику
 var _onCloseClick = function() {
   hideGallery();
 };
 
-
+//функция скрытия галарея при нажатии на клавишу esc
 var _onDocumentKeyDown = function(event) {
   if (event.keyCode === 27) {
     if (!galleryContainer.classList.contains('invisible')) {
@@ -101,6 +95,7 @@ var _onDocumentKeyDown = function(event) {
   }
 };
 
+//функция перелистывания галереи вправо
 var _onNextClick = function() {
   if(numberPhoto < galleryArray.length - 1) {
     ++numberPhoto;
@@ -108,14 +103,13 @@ var _onNextClick = function() {
   }
 };
 
+//функция перелистывания галереи влево
 var _onPrevClick = function() {
   if (numberPhoto > 0) {
     --numberPhoto;
     showPhoto(numberPhoto);
   } 
 };
-
-
 
 //функцяи закрытия галереи
 var hideGallery = function() {
@@ -126,12 +120,12 @@ var hideGallery = function() {
   controlNext.removeEventListener('click', _onNextClick);
 };
 
-
-
 getPhotos(photoItems);
-getGallery(photoSrc);
 photoClick();
 
+module.exports = getPhotos;
+
+module.exports = showGallery;
 
 
 
