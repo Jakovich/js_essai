@@ -13,9 +13,16 @@ var controlNext = galleryContainer.querySelector('.overlay-gallery-control-right
 
 var galleryPreview = galleryContainer.querySelector('.overlay-gallery-preview');
 
+var currentNumberContainer = galleryContainer.querySelector('.preview-number-current');
+
+var totalNumberContainer = galleryContainer.querySelector('.preview-number-total');
+
 var photoSrc = [];
 var galleryArray = [];
+var photo = new Image(600,600);
 
+var currentPhoto = 0;
+galleryPreview.appendChild(photo);
 
 //яункция создания массива  с src изображений
 var getPhotos = function(arr) {
@@ -52,14 +59,20 @@ var showGallery = function(photoNumber) {
   if (galleryContainer.classList.contains('invisible')) {
     galleryContainer.classList.remove('invisible');
   }
-  showPhoto(photoNumber);
+  
+  showPhoto(photoNumber, photo);
   
   window.addEventListener('keydown', _onDocumentKeyDown);
   galleryClose.addEventListener('click', _onCloseClick);
   controlPrev.addEventListener('click', _onPrevClick);
-  controlNext.addEventListener('click', _onNextClick);
+  controlNext.addEventListener('click', _onNextClick(photoNumber));
 };
 
+var showPhoto = function (num) { 
+  photo.src = galleryArray[num];
+  currentNumberContainer.innerHTML = num + 1;
+  totalNumberContainer.innerHTML = galleryArray.length;
+};
 
 var _onCloseClick = function() {
   hideGallery();
@@ -74,20 +87,17 @@ var _onDocumentKeyDown = function(event) {
   }
 };
 
-var _onNextClick = function() {
-  
+var _onNextClick = function(numb) {
+  if(numb < galleryArray.length) {
+    
+  }
 };
 
 var _onPrevClick = function() {
   
 };
 
-var showPhoto = function (num) {
-  galleryPreview.removeChild;
-  var photo = new Image();
-  photo.src = galleryArray[num];
-  galleryPreview.appendChild(photo);
-}
+
 
 //функцяи закрытия галереи
 var hideGallery = function() {
