@@ -1,16 +1,44 @@
 'use strict';
 
-var gallery = document.querySelector(".overlay-gallery");
+var photoGallery = document.querySelector('.photogallery');
+var photoItems = photoGallery.querySelectorAll('.photogallery-image img');
 
-var galleryClose = gallery.querySelector(".overlay-gallery-close");
+var galleryContainer = document.querySelector('.overlay-gallery');
 
-var controlPrev = gallery.querySelector(".overlay-gallery-control-left");
+var galleryClose = galleryContainer.querySelector('.overlay-gallery-close');
 
-var controlNext = gallery.querySelector(".overlay-gallery-control-right");
+var controlPrev = galleryContainer.querySelector('.overlay-gallery-control-left');
 
-var galleryPreview = gallery.querySelector(".overlay-gallery-preview");
+var controlNext = galleryContainer.querySelector('.overlay-gallery-control-right');
+
+var galleryPreview = galleryContainer.querySelector('.overlay-gallery-preview');
 
 var galleryArray = [];
+var photoSrc = [];
+
+//яункция создания массива  с src изображений
+var getPhotos = function(arr) {
+  for (var i = 0; i < arr.length; i++) {
+    photoSrc.push(arr[i].src);
+  }
+};
+
+getPhotos(photoItems);
+
+var photoClick = function() {
+  photoGallery.addEventListener('click', function(event){
+    event.preventDefault();
+    if (event.target.tagName === 'IMG') {
+      var numberPhoto = photoSrc.indexOf(event.target.src); 
+      showGallery(numberPhoto);
+    }
+  })
+};
+
+photoClick();
+
+
+
 
 var galleryGet = function(arr) {
   for (var i = 0; i < arr.length; i++) {
@@ -19,14 +47,14 @@ var galleryGet = function(arr) {
 };
 
 
-var galleryShow = function(photoNumber) {
-  if (gallery.classList.contains("invisible")) {
-    gallery.classList.remove("invisible");
+var showGallery = function(photoNumber) {
+  if (galleryContainer.classList.contains('invisible')) {
+    galleryContainer.classList.remove('invisible');
   }
-  window.addEventListener("keydown", _onDocumentKeyDown);
-  galleryClose.addEventListener("click", _onNextClick);
-  controlPrev.addEventListener("click", _onPrevClick);
-  controlNext.addEventListener("click", _onNextClick);
+  window.addEventListener('keydown', _onDocumentKeyDown);
+  galleryClose.addEventListener('click', _onNextClick);
+  controlPrev.addEventListener('click', _onPrevClick);
+  controlNext.addEventListener('click', _onNextClick);
 };
 
 var _onCloseClick = function() {
@@ -36,7 +64,7 @@ var _onCloseClick = function() {
 
 var _onDocumentKeyDown = function(event) {
   if (event.keyCode === 27) {
-    if (!gallery.classList.contains("invisible")) {
+    if (!galleryContainer.classList.contains('invisible')) {
       hideGallery();
     }
   }
@@ -51,11 +79,11 @@ var _onPrevClick = function() {
 };
 
 var hideGallery = function() {
-  gallery.classList.add("invisible");
-  window.removeEventListener("keydown", _onDocumentKeyDown);
-  galleryClose.removeEventListener("click", _onNextClick);
-  controlPrev.removeEventListener("click", _onPrevClick);
-  controlNext.removeEventListener("click", _onNextClick);
+  gallery.classList.add('invisible');
+  window.removeEventListener('keydown', _onDocumentKeyDown);
+  galleryClose.removeEventListener('click', _onNextClick);
+  controlPrev.removeEventListener('click', _onPrevClick);
+  controlNext.removeEventListener('click', _onNextClick);
 }
 
 
