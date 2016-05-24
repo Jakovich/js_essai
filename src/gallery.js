@@ -13,8 +13,9 @@ var controlNext = galleryContainer.querySelector('.overlay-gallery-control-right
 
 var galleryPreview = galleryContainer.querySelector('.overlay-gallery-preview');
 
-var galleryArray = [];
 var photoSrc = [];
+var galleryArray = [];
+
 
 //яункция создания массива  с src изображений
 var getPhotos = function(arr) {
@@ -23,43 +24,46 @@ var getPhotos = function(arr) {
   }
 };
 
-getPhotos(photoItems);
 
-var photoClick = function() {
-  photoGallery.addEventListener('click', function(event){
-    event.preventDefault();
-    if (event.target.tagName === 'IMG') {
-      var numberPhoto = photoSrc.indexOf(event.target.src); 
-      showGallery(numberPhoto);
-    }
-  })
-};
-
-photoClick();
-
-
-
-
-var galleryGet = function(arr) {
+//функция создания копии архива с src изображений
+var getGallery = function(arr) {
   for (var i = 0; i < arr.length; i++) {
     galleryArray[i] = arr[i];
   }
 };
 
 
+
+
+//функция открытия галереи при клике на изображение
+var photoClick = function() {
+  photoGallery.addEventListener('click', function(event){
+    event.preventDefault();
+    if (event.target.tagName === 'IMG') {
+      var numberPhoto = galleryArray.indexOf(event.target.src); 
+      showGallery(numberPhoto);
+    }
+  })
+};
+
+
+//функция показа галереи
 var showGallery = function(photoNumber) {
   if (galleryContainer.classList.contains('invisible')) {
     galleryContainer.classList.remove('invisible');
   }
+  showPhoto(photoNumber);
+  
   window.addEventListener('keydown', _onDocumentKeyDown);
-  galleryClose.addEventListener('click', _onNextClick);
+  galleryClose.addEventListener('click', _onCloseClick);
   controlPrev.addEventListener('click', _onPrevClick);
   controlNext.addEventListener('click', _onNextClick);
 };
 
+
 var _onCloseClick = function() {
   hideGallery();
-}
+};
 
 
 var _onDocumentKeyDown = function(event) {
@@ -78,13 +82,27 @@ var _onPrevClick = function() {
   
 };
 
+var showPhoto = function (num) {
+  galleryPreview.removeChild;
+  var photo = new Image();
+  photo.src = galleryArray[num];
+  galleryPreview.appendChild(photo);
+}
+
+//функцяи закрытия галереи
 var hideGallery = function() {
-  gallery.classList.add('invisible');
+  galleryContainer.classList.add('invisible');
   window.removeEventListener('keydown', _onDocumentKeyDown);
   galleryClose.removeEventListener('click', _onNextClick);
   controlPrev.removeEventListener('click', _onPrevClick);
   controlNext.removeEventListener('click', _onNextClick);
-}
+};
+
+
+
+getPhotos(photoItems);
+getGallery(photoSrc);
+photoClick();
 
 
 
