@@ -19,7 +19,7 @@ var totalNumberContainer = galleryContainer.querySelector('.preview-number-total
 
 
 var galleryArray = [];
-var photo = new Image(500,550);
+var photo = new Image(600);
 var numberPhoto;
 var currentPhoto = 0;
 galleryPreview.appendChild(photo);
