@@ -45,16 +45,8 @@ var photoClick = function() {
 
 //функция скрытия стрелок управления
 var hideControls = function() {
-  if(numberPhoto > 0) {
-    controlPrev.style.visibility = "visible";
-  } else {
-    controlPrev.style.visibility = "hidden";
-  }
-  if(numberPhoto < galleryArray.length - 1) {
-    controlNext.style.visibility = "visible";
-  } else {
-    controlNext.style.visibility = "hidden";
-  }
+  controlPrev.style.visibility = (numberPhoto > 0) ? 'visible' : 'hidden';
+  controlNext.style.visibility = (numberPhoto < galleryArray.length - 1) ? 'visible' : 'hidden';
 };
 
 
@@ -81,14 +73,15 @@ var showPhoto = function (num) {
   hideControls();
 };
 
-//функция скрытия галарея при клике по крестику
+//функция скрытия галареи при клике по крестику
 var _onCloseClick = function() {
   hideGallery();
 };
 
-//функция скрытия галарея при нажатии на клавишу esc
+//функция скрытия галареи при нажатии на клавишу esc
 var _onDocumentKeyDown = function(event) {
-  if (event.keyCode === 27) {
+  var escKey = 27; //код клавиши esc
+  if (event.keyCode === escKey) {
     if (!galleryContainer.classList.contains('invisible')) {
       hideGallery();
     }
