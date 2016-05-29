@@ -2,13 +2,37 @@
 var template = document.querySelector('#review-template');
 var elementToClone;
 
+
 if ('content' in template) {
   elementToClone = template.content.querySelector('.review');
 } else {
     elementToClone = template.querySelector('.review');
 }
 
-var getReviewElement = function(data, container) {
+var Review = function(data, container){
+  this.data = data;
+  this.element = getReviewElement(this.data);
+  
+  this.onQuizClick = function(evt) {
+    if (evt.target.classList.contains('review-quiz-answer')) {
+      evt.preventDefault();
+      if (!evt.target.classList.contains('review-quiz-answer-active')) {
+        evt.target.classList.add('review-quiz-answer-active');
+      }
+    }
+  };
+  
+  this.remove = function() {
+    this.element.removeEventListener('click', this.onQuizClick);
+    this.element.parentNode.removeChild(this.element);
+  };
+  
+  
+  container.appendChild(this.element);
+  this.element.addEventListener('click', this.onQuizClick);
+};
+
+var getReviewElement = function(data) {
   var element = elementToClone.cloneNode(true);
   var starWidth = 30;
   var ratingWidth = starWidth * data.rating + 'px';
@@ -36,9 +60,9 @@ var getReviewElement = function(data, container) {
 
   element.querySelector('.review-text').textContent = data.description;
   element.querySelector('.review-rating').style.width = ratingWidth;
-  container.appendChild(element);
+  //container.appendChild(element); удален из параметров
 
   return element;
 };
 
-module.exports = getReviewElement;
+module.exports = Review;
