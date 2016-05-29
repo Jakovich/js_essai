@@ -2,7 +2,7 @@
 var FILTER_TYPE = require('../filter/filter-type');
 var filter = require('../filter/filter');
 var getReviews = require('./get-reviews');
-var Review = require('./get-review-element');
+var Review = require('./review');
 var utils = require('../utils');
 
 var reviewsContainer = document.querySelector('.reviews-list');

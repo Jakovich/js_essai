@@ -6,7 +6,7 @@ var elementToClone;
 if ('content' in template) {
   elementToClone = template.content.querySelector('.review');
 } else {
-    elementToClone = template.querySelector('.review');
+  elementToClone = template.querySelector('.review');
 }
 
 var Review = function(data, container){
@@ -16,6 +16,13 @@ var Review = function(data, container){
   this.onQuizClick = function(evt) {
     if (evt.target.classList.contains('review-quiz-answer')) {
       evt.preventDefault();
+      var allItems = evt.target.parentNode.querySelectorAll('.review-quiz-answer');
+      for (var i = 0; i < allItems.length; i++) {
+        if (allItems[i].classList.contains('review-quiz-answer-active')) {
+          allItems[i].classList.remove('review-quiz-answer-active');
+        }
+      }
+      
       if (!evt.target.classList.contains('review-quiz-answer-active')) {
         evt.target.classList.add('review-quiz-answer-active');
       }
@@ -26,7 +33,6 @@ var Review = function(data, container){
     this.element.removeEventListener('click', this.onQuizClick);
     this.element.parentNode.removeChild(this.element);
   };
-  
   
   container.appendChild(this.element);
   this.element.addEventListener('click', this.onQuizClick);
