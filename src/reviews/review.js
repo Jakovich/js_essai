@@ -14,7 +14,8 @@ var Review = function(data, container){
   this.element = getReviewElement(this.data);
   
   this.onQuizClick = function(evt) {
-    if (evt.target.classList.contains('review-quiz-answer')) {
+    var currentItem = evt.target.classList;
+    if (currentItem.contains('review-quiz-answer')) {
       evt.preventDefault();
       var allItems = evt.target.parentNode.querySelectorAll('.review-quiz-answer');
       for (var i = 0; i < allItems.length; i++) {
@@ -23,8 +24,8 @@ var Review = function(data, container){
         }
       }
       
-      if (!evt.target.classList.contains('review-quiz-answer-active')) {
-        evt.target.classList.add('review-quiz-answer-active');
+      if (!currentItem.contains('review-quiz-answer-active')) {
+        currentItem.add('review-quiz-answer-active');
       }
     }
   };
@@ -40,8 +41,10 @@ var Review = function(data, container){
 
 var getReviewElement = function(data) {
   var element = elementToClone.cloneNode(true);
-  var starWidth = 30;
-  var ratingWidth = starWidth * data.rating + 'px';
+  var STAR_WIDTH = 30;
+  var IMG_WIDTH = 124;
+  var IMG_HEIGHT = 124;
+  var ratingWidth = STAR_WIDTH * data.rating + 'px';
   var userImage = new Image();
   var imageLoadTimeout;
 
@@ -49,8 +52,8 @@ var getReviewElement = function(data) {
     clearTimeout(imageLoadTimeout);
     var userImgTag = element.querySelector('.review-author');
     userImgTag.src = userImage.src;
-    userImgTag.width = 124;
-    userImgTag.height = 124;
+    userImgTag.width = IMG_WIDTH;
+    userImgTag.height = IMG_HEIGHT;
   };
 
   userImage.onerror = function() {
@@ -66,7 +69,6 @@ var getReviewElement = function(data) {
 
   element.querySelector('.review-text').textContent = data.description;
   element.querySelector('.review-rating').style.width = ratingWidth;
-  //container.appendChild(element); удален из параметров
 
   return element;
 };
