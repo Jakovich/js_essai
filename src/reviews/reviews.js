@@ -2,7 +2,7 @@
 var FILTER_TYPE = require('../filter/filter-type');
 var filter = require('../filter/filter');
 var getReviews = require('./get-reviews');
-var getReviewElement = require('./get-review-element');
+var Review = require('./review');
 var utils = require('../utils');
 
 var reviewsContainer = document.querySelector('.reviews-list');
@@ -13,6 +13,9 @@ var pageNumber = 0;
 var linkShow = document.querySelector(".reviews-controls-more");
   
 var reviews = [];
+
+var renderedReviews = [];
+
 var filteredReviews = [];
 
 if (!reviewsFilter.classList.contains('invisible')){
@@ -21,7 +24,10 @@ if (!reviewsFilter.classList.contains('invisible')){
 
 function renderReviews(reviews, page, replace) {
   if (replace) {
-    reviewsContainer.innerHTML = '';
+    renderedReviews.forEach(function(review){
+      review.remove();
+      renderedReviews = [];
+    });
   }
     
   var from = page * PAGE_SIZE;
@@ -29,7 +35,7 @@ function renderReviews(reviews, page, replace) {
   var to = from + PAGE_SIZE;
     
   reviews.slice(from, to).forEach(function(review) {
-    getReviewElement(review, reviewsContainer);
+    renderedReviews.push(new Review(review, reviewsContainer));
   });
     
   if (utils.isNextPageAvailable(reviews, pageNumber, PAGE_SIZE)) {
