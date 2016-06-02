@@ -1,124 +1,120 @@
 'use strict';
 
-var photoGallery = document.querySelector('.photogallery');
-var photoItems = photoGallery.querySelectorAll('.photogallery-image img');
-
-var galleryContainer = document.querySelector('.overlay-gallery');
-
-var galleryClose = galleryContainer.querySelector('.overlay-gallery-close');
-
-var controlPrev = galleryContainer.querySelector('.overlay-gallery-control-left');
-
-var controlNext = galleryContainer.querySelector('.overlay-gallery-control-right');
-
-var galleryPreview = galleryContainer.querySelector('.overlay-gallery-preview');
-
-var currentNumberContainer = galleryContainer.querySelector('.preview-number-current');
-
-var totalNumberContainer = galleryContainer.querySelector('.preview-number-total');
-
-
-var galleryArray = [];
-var photo = new Image(600);
-var numberPhoto;
-var currentPhoto = 0;
-galleryPreview.appendChild(photo);
-
-//функция создания массива  с src изображений
-var getPhotos = function(arr) {
-  for (var i = 0; i < arr.length; i++) {
-    galleryArray.push(arr[i].src);
-  }
-};
-
-
-//функция открытия галереи при клике на изображение
-var photoClick = function() {
-  photoGallery.addEventListener('click', function(event){
+var  Gallery = function() {
+  
+  var self = this;
+  this.galleryContainer = document.querySelector('.overlay-gallery');
+  this.galleryClose = this.galleryContainer.querySelector('.overlay-gallery-close');
+  this.controlPrev = this.galleryContainer.querySelector('.overlay-gallery-control-left');
+  this.controlNext = this.galleryContainer.querySelector('.overlay-gallery-control-right');
+  this.galleryPreview = this.galleryContainer.querySelector('.overlay-gallery-preview');
+  this.currentNumberContainer = this.galleryContainer.querySelector('.preview-number-current');
+  this.totalNumberContainer = this.galleryContainer.querySelector('.preview-number-total');
+  this.photoGallery = document.querySelector('.photogallery');
+  this.photoItems = this.photoGallery.querySelectorAll('.photogallery-image img');
+  this.galleryArray = [];
+  this.photo = new Image(600);
+  this.numberPhoto;
+  this.currentPhoto = 0;
+  this.galleryPreview.appendChild(this.photo);
+  
+  
+  //функция открытия галереи при клике на изображение
+  
+  this.photoClick = function(event) {
     event.preventDefault();
     if (event.target.tagName === 'IMG') {
-      numberPhoto = galleryArray.indexOf(event.target.src); 
-      showGallery(numberPhoto); 
+      self.numberPhoto = self.galleryArray.indexOf(event.target.src); 
+      self.showGallery(self.numberPhoto); 
     }
-  })
-};
-
-//функция скрытия стрелок управления
-var hideControls = function() {
-  controlPrev.style.visibility = (numberPhoto > 0) ? 'visible' : 'hidden';
-  controlNext.style.visibility = (numberPhoto < galleryArray.length - 1) ? 'visible' : 'hidden';
-};
-
-
-//функция показа галереи
-var showGallery = function(photoNumber) {
-  if (galleryContainer.classList.contains('invisible')) {
-    galleryContainer.classList.remove('invisible');
-  }
+  };
   
-  showPhoto(photoNumber);
+  //функция создания массива  с src изображений
   
-  window.addEventListener('keydown', _onDocumentKeyDown);
-  galleryClose.addEventListener('click', _onCloseClick);
-  controlPrev.addEventListener('click', _onPrevClick);
-  controlNext.addEventListener('click', _onNextClick);
-};
-
-
-//функция показа изображения
-var showPhoto = function (num) { 
-  photo.src = galleryArray[num];
-  currentNumberContainer.innerHTML = num + 1;
-  totalNumberContainer.innerHTML = galleryArray.length;
-  hideControls();
-};
-
-//функция скрытия галареи при клике по крестику
-var _onCloseClick = function() {
-  hideGallery();
-};
-
-//функция скрытия галареи при нажатии на клавишу esc
-var _onDocumentKeyDown = function(event) {
-  var escKey = 27; //код клавиши esc
-  if (event.keyCode === escKey) {
-    if (!galleryContainer.classList.contains('invisible')) {
-      hideGallery();
+  this.getPhotos = function(arr) {
+    for (var i = 0; i < arr.length; i++) {
+      this.galleryArray.push(arr[i].src);
     }
-  }
-};
-
-//функция перелистывания галереи вправо
-var _onNextClick = function() {
-  if(numberPhoto < galleryArray.length - 1) {
-    ++numberPhoto;
-    showPhoto(numberPhoto);
-  }
-};
+  };
+  
+  //функция скрытия стрелок управления
+  this.hideControls = function() {
+    self.controlPrev.style.visibility = (self.numberPhoto > 0) ? 'visible' : 'hidden';
+    self.controlNext.style.visibility = (self.numberPhoto < self.galleryArray.length - 1) ? 'visible' : 'hidden';
+  };
+  
+  //функция перелистывания галереи вправо
+  this._onNextClick = function() {
+    if(self.numberPhoto < self.galleryArray.length - 1) {
+      ++self.numberPhoto;
+      self.showPhoto(self.numberPhoto);
+    }
+  };
 
 //функция перелистывания галереи влево
-var _onPrevClick = function() {
-  if (numberPhoto > 0) {
-    --numberPhoto;
-    showPhoto(numberPhoto);
-  } 
+  this._onPrevClick = function() {
+    if (self.numberPhoto > 0) {
+      --self.numberPhoto;
+      self.showPhoto(self.numberPhoto);
+    } 
+  };
+  
+  //функция скрытия галареи при нажатии на клавишу esc
+  this._onDocumentKeyDown = function(event) {
+    var escKey = 27; //код клавиши esc
+    if (event.keyCode === escKey) {
+      if (!self.galleryContainer.classList.contains('invisible')) {
+        self.hideGallery();
+      }
+    }
+  };
+  
+  //функция закрытия галереи
+  this.hideGallery = function() {
+    self.galleryContainer.classList.add('invisible');
+    window.removeEventListener('keydown', self._onDocumentKeyDown);
+    self.galleryClose.removeEventListener('click', self._onNextClick);
+    self.controlPrev.removeEventListener('click', self._onPrevClick);
+    self.controlNext.removeEventListener('click', self._onNextClick);
+  };
+  
+  //функция показа изображения
+  
+  this.showPhoto = function (num) { 
+    self.photo.src = self.galleryArray[num];
+    self.currentNumberContainer.innerHTML = num + 1;
+    self.totalNumberContainer.innerHTML = self.galleryArray.length;
+    self.hideControls();
+  };
+
+  //функция скрытия галареи при клике по крестику
+  this._onCloseClick = function() {
+    self.hideGallery();
+  };
+  
+  this.showGallery = function(photoNumber) {
+    if (self.galleryContainer.classList.contains('invisible')) {
+      self.galleryContainer.classList.remove('invisible');
+    }
+
+    self.showPhoto(photoNumber);
+
+    window.addEventListener('keydown', self._onDocumentKeyDown);
+    self.galleryClose.addEventListener('click', self._onCloseClick);
+    self.controlPrev.addEventListener('click', self._onPrevClick);
+    self.controlNext.addEventListener('click', self._onNextClick);
+  };
+
+
+  this.itemForShow = self.getPhotos(this.photoItems);
+  this.photoGallery.addEventListener('click', self.photoClick);
+
 };
 
-//функцяи закрытия галереи
-var hideGallery = function() {
-  galleryContainer.classList.add('invisible');
-  window.removeEventListener('keydown', _onDocumentKeyDown);
-  galleryClose.removeEventListener('click', _onNextClick);
-  controlPrev.removeEventListener('click', _onPrevClick);
-  controlNext.removeEventListener('click', _onNextClick);
-};
 
-getPhotos(photoItems);
-photoClick();
+module.exports = new Gallery();
 
-module.exports = getPhotos;
 
-module.exports = showGallery;
 
 
 
