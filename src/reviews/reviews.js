@@ -64,6 +64,7 @@ function setFiltrationEnabled() {
   reviewsFilter.addEventListener('click', function(event) {
     if (event.target.name === 'reviews') {
       setFilterEnabled(event.target.id);
+      localStorage.setItem("filter", event.target.id);
     }
   });
 }
@@ -71,7 +72,8 @@ function setFiltrationEnabled() {
 getReviews(function(loadedReviews) {
   reviews = loadedReviews;
   setFiltrationEnabled();
-  setFilterEnabled(FILTER_TYPE.ALL);
+  setFilterEnabled(localStorage.getItem("filter") || FILTER_TYPE.ALL);
+  reviewsFilter["reviews"].value = localStorage.getItem("filter") || FILTER_TYPE.ALL;
   showMore();
 });
 
