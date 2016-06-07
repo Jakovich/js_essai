@@ -23,9 +23,10 @@ var  Gallery = function() {
   
   this.photoClick = function(event) {
     event.preventDefault();
+    var currentSrc = event.target.getAttribute('src');
     if (event.target.tagName === 'IMG') {
-      self.numberPhoto = self.galleryArray.indexOf(event.target.getAttribute('src'));   
-      location.hash = 'photo/' + event.target.getAttribute('src');
+      self.numberPhoto = self.galleryArray.indexOf(currentSrc);   
+      location.hash = 'photo/' + currentSrc;
     }
   };
   
