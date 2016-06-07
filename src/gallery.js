@@ -87,10 +87,10 @@ var  Gallery = function() {
       self.currentNumberContainer.innerHTML = num + 1;
       
     } else if (typeof(num) === 'string') {
-      var found = num.match(/#photo\/(\S+)/);
-      self.photo.src = found[1];
-      self.currentNumberContainer.innerHTML = self.galleryArray.indexOf(found[1]) + 1;
-      this.numberPhoto = self.galleryArray.indexOf(found[1]);
+      
+      self.photo.src = num;
+      self.currentNumberContainer.innerHTML = self.galleryArray.indexOf(num) + 1;
+      this.numberPhoto = self.galleryArray.indexOf(num);
     }
     self.totalNumberContainer.innerHTML = self.galleryArray.length;
     self.hideControls();
@@ -118,21 +118,15 @@ var  Gallery = function() {
   
   
   this.hashVerify = function() {
-    if (location.hash) {
-      if (location.hash.match(/#photo\/(\S+)/))
-        var hashLink = location.hash.match(/#photo\/(\S+)/);
-      self.showGallery(hashLink[1]);
+    if (location.hash && location.hash.match(/#photo\/(\S+)/)) {
+      var hashLink = location.hash.match(/#photo\/(\S+)/);
+      this.showGallery(hashLink[1]);
     }
   };
-  if (location.hash && location.hash.match(/#photo\/(\S+)/)) {
-      self.showGallery(location.hash);
-    }
   
-  window.addEventListener('hashchange', function(){
-    if (location.hash && location.hash.match(/#photo\/(\S+)/)) {
-      self.showGallery(location.hash);
-    }
-  });
+  this.hashVerify();
+  
+  window.addEventListener('hashchange', this.hashVerify.bind(this));
 
 };
 
