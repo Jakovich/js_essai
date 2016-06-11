@@ -17,37 +17,19 @@ var  Gallery = function() {
   this.numberPhoto;
   this.currentPhoto = 0;
   this.galleryPreview.appendChild(this.photo);
-  
-  
-  
-  
-  //функция создания массива  с src изображений
-  
-  this.getPhotos = function(arr) {
-    for (var i = 0; i < arr.length; i++) {
-      this.galleryArray.push(arr[i].getAttribute('src'));
-    }
-  };
+
   
   this.photoClick = this.photoClick.bind(this);
   
-  this.hideGallery = this.hideGallery.bind(this);
-  
-  this.showGallery = this.showGallery.bind(this);
-  
   this._onCloseClick = this._onCloseClick.bind(this);
-  
-  this.showPhoto = this.showPhoto.bind(this);
   
   this._onDocumentKeyDown = this._onDocumentKeyDown.bind(this);
   
   this._onNextClick = this._onNextClick.bind(this);
   
   this._onPrevClick = this._onPrevClick.bind(this);
-  
-  this.hideControls = this.hideControls.bind(this);
 
-  this.itemForShow = self.getPhotos(this.photoItems);
+  this.itemForShow = this.getPhotos(this.photoItems);
   
   this.photoGallery.addEventListener('click', this.photoClick);
   
@@ -153,6 +135,13 @@ Gallery.prototype.hideControls = function() {
   this.controlNext.style.visibility = (this.numberPhoto < this.galleryArray.length - 1) ? 'visible' : 'hidden';
 };
 
+//функция создания массива  с src изображений
+Gallery.prototype.getPhotos = function(arr) {
+    for (var i = 0; i < arr.length; i++) {
+      this.galleryArray.push(arr[i].getAttribute('src'));
+    }
+  };
+  
 
 module.exports = new Gallery();
 
